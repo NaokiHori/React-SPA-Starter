@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  install:
+    name: Check installation process
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@main
+        with:
+          ref: main
+      - name: Setup Node
+        uses: actions/setup-node@main
+        with:
+          node-version: "latest"
+      - name: Install dependencies
+        run: |
+          sh install.sh
+      - name: Type check
+        run: |
+          npm run check
+      - name: Build
+        run: |
+          npm run build
